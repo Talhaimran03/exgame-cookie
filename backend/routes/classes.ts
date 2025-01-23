@@ -1,10 +1,33 @@
 import Router from "@koa/router";
 import { getAllClasses, getStudentsOfClass } from "../services/user";
+import { getNameOfClass, createClass } from "../services/class";
+import { Class } from "../../api-types";
 import { AuthenticatedContext } from "../types/session";
 import { authMiddleware } from "./auth";
 
 const router = new Router<unknown, AuthenticatedContext>({
   prefix: "/classes",
+});
+
+router.get("/getName/:id", async (ctx) => {
+  ctx.body = await getNameOfClass(ctx.params.id);
+});
+
+// aggiunge una nuova classe ---> funziona!!
+router.post("/newClass", async (ctx) =>{
+  ctx.accepts("json");
+  const newClass = ctx.request.body as Class;
+
+  try {
+    const response = await createClass(newClass);
+    ctx.status = 201;
+    ctx.body = response;
+    
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = { error: "An error occurred while creating the class" };
+    console.error(error);
+  }
 });
 
 // questo middleware serve a controllare che tu sia loggato prima di mostrarti la pagina
@@ -55,5 +78,7 @@ router.get("/:class", async (ctx) => {
       break;
   }
 });
+
+//TODO: api per aggiungere classe a Teacher (PUT)
 
 export default router;
