@@ -26,6 +26,42 @@ export const createClass = async (newClass: Partial<Class>) => {
     return classDocument.save();
 };
 
+//modify
+export const editClass = async (id:String, newClass: Partial<Class>) => {
+    const opt = { new: true, runValidators: true };
+        try {
+            const classDocument = await ClassModel.findByIdAndUpdate(
+                id,
+                { $set: newClass },
+                opt,
+            );
+            return classDocument;
+        } catch (error) {
+            console.error("Errore durante l'aggiornamento della classe:", error);
+            throw new Error(error.message);
+        }
+};
+
+//delete
+export const deleteClass = async (id: String) => {
+    try {
+        const classToDelete = await ClassModel.findById(id);
+    
+        if (!classToDelete) {
+          return { success: false, message: "Utente non trovato" };
+        }
+    
+        const result = await ClassModel.deleteOne({ _id: id });
+        return { success: true, message: "Classe eliminato correttamente", result };
+      } catch (error) {
+        console.error("Errore durante l'eliminazione della classe:", error);
+        return {
+            success: false,
+            message: "Errore durante l'eliminazione della classe",
+        };
+    }
+};
+
 //TODO FIX THE SUCCESIVE FUNCTIONS ⇂
 // export const getStudentsOfClass = async (studentClass: string) => {
 //   return await UserModel.find(
