@@ -17,10 +17,6 @@ router.get("/getName/:id", async (ctx) => {
   ctx.body = await getNameOfClass(ctx.params.id);
 });
 
-router.get("/getNamesOfClasses", async (ctx) => {
-  ctx.body = await getStudentsOfClass(ctx.params.class);
-});
-
 // aggiunge una nuova classe ---> funziona!!
 router.post("/", isAdminOrTeacherMiddleware(), async (ctx) =>{
   ctx.accepts("json");
