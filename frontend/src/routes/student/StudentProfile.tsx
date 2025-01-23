@@ -60,7 +60,7 @@ export const StudentProfile: React.FC = () => {
         <Stack sx={{ justifyContent: "center", alignItems: "flex-end" }}>
           <Button>
             <Link
-              to="/student/7/profile/details/edit"
+              to={`/student/${currentUser?._id}/profile/details/edit`}
               style={{ color: "white", textDecoration: "none" }}
             >
               Modifica
