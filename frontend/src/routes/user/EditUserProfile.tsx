@@ -62,6 +62,18 @@ export const EditUserProfile: React.FC = () => {
         );
     };
 
+    interface TeacherSubjectsProps {
+        teacherSubjects: string[];
+    }
+
+    const TeacherSubjects: React.FC<TeacherSubjectsProps> = ({ teacherSubjects }) => {
+        return(
+            <Typography component="h5" sx={{ mb: 2 }}>
+                Materie: {teacherSubjects.join(', ')}
+            </Typography>
+        );
+    };
+
     const handleSave = async () => {
         setIsSaving(true);
 
@@ -96,51 +108,56 @@ export const EditUserProfile: React.FC = () => {
 
                     <Box sx={{ ml: 6 }}>
                         <Stack sx={{ minWidth: 300 }}>
-                        <label>Nome</label>
-                        <Input
-                            color="neutral"
-                            size="sm"
-                            value={first_name}
-                            onChange={(e) => setName(e.target.value)}
-                            variant="outlined"
-                        />
-                        <label>Cognome</label>
-                        <Input
-                            color="neutral"
-                            size="sm"
-                            value={last_name}
-                            onChange={(e) => setlastName(e.target.value)}
-                            variant="outlined"
-                        />
+                            <label>Nome</label>
+                            <Input
+                                color="neutral"
+                                size="sm"
+                                value={first_name}
+                                onChange={(e) => setName(e.target.value)}
+                                variant="outlined"
+                            />
+                            <label>Cognome</label>
+                            <Input
+                                color="neutral"
+                                size="sm"
+                                value={last_name}
+                                onChange={(e) => setlastName(e.target.value)}
+                                variant="outlined"
+                            />
                         </Stack>
                         <br />
                         <label>E-mail</label>
                         <Input
-                        color="neutral"
-                        size="sm"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        variant="outlined"
+                            color="neutral"
+                            size="sm"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            variant="outlined"
                         />
                     </Box>
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", mt: 4 }}>
-                <Box sx={{ ml: 2 }}>
-                    <Typography component="h5" sx={{ mb: 2, mt: 2 }}>
-                    Ruolo: {currentUser?.role}
-                    </Typography>
-                    { (currentUser?.role !== 'admin' && (
-                            currentUser?.role === 'student' ? (
-                                <StudentClass studentClass={currentUser?.student_class}/>
-                            ) : currentUser?.role === 'teacher' ? (
-                                <TeacherClasses teacherClasses={currentUser?.teacher_classes || []}/>
-                            ) : null
-                        )
-                    )}
-                    {/* TODO: mostrare le materie elenco */}
-                    <Typography component="h5">Materie *</Typography>
-                </Box>
+                    <Box sx={{ ml: 2 }}>
+                        <Typography component="h5" sx={{ mb: 2, mt: 2 }}>
+                        Ruolo: {currentUser?.role}
+                        </Typography>
+                        { (currentUser?.role !== 'admin' && (
+                                currentUser?.role === 'student' ? (
+                                    <StudentClass studentClass={currentUser?.student_class}/>
+                                ) : (currentUser?.role === 'teacher' && ((currentUser?.teacher_classes ?? []).length > 0)) ? (
+                                    <TeacherClasses teacherClasses={currentUser?.teacher_classes || []}/>
+                                ) : null
+                            )
+                        )}
+                        {/* TODO: mostrare le materie elenco */}
+                        { currentUser?.role === 'teacher' && ((currentUser?.subjects ?? []).length > 0)
+                        ? 
+                            (<TeacherSubjects teacherSubjects={currentUser?.subjects || []}/>)
+                        :
+                            '' 
+                        }
+                    </Box>
                 </Box>
 
                 <Stack sx={{ justifyContent: "center", alignItems: "flex-end", mt: 4 }}>
