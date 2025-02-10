@@ -53,7 +53,7 @@ router.get("/my-students", async (ctx) => {
       break;
 
     case "teacher":
-      const classes: string[] | undefined = loggedUser.teacher_classes;
+      { const classes: string[] | undefined = loggedUser?.teacher_classes ?? undefined;
       if (classes && classes.length !== 0) {
         ctx.body = await getMyStudents(classes);
       } else {
@@ -62,7 +62,7 @@ router.get("/my-students", async (ctx) => {
           message: "You have no students assigned to your classes",
         };
       }
-      break;
+      break; }
 
     case "student":
     default:

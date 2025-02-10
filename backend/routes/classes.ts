@@ -3,7 +3,7 @@ import { getStudentsOfClass } from "../services/user";
 import { getNameOfClass, createClass, getAllClasses, deleteClass, editClass } from "../services/class";
 import { Class } from "../../api-types";
 import { AuthenticatedContext } from "../types/session";
-import { authMiddleware, isAdminMiddleware, isAdminOrTeacherMiddleware} from "./auth";
+import { authMiddleware, isAdminOrTeacherMiddleware} from "./auth";
 
 const router = new Router<unknown, AuthenticatedContext>({
   prefix: "/classes",
@@ -13,12 +13,13 @@ const router = new Router<unknown, AuthenticatedContext>({
 //se lo tolgo, mostra la pagina ancje se non sono loggato
 router.use(authMiddleware());
 
-router.get("/getName/:id", async (ctx) => {
+router.get("/get-name/:id", async (ctx) => {
   ctx.body = await getNameOfClass(ctx.params.id);
 });
 
-router.get("/getNamesOfClasses", async (ctx) => {
-  ctx.body = await getStudentsOfClass(ctx.params.class);
+//get all classes, is usable for all and for the print of the names of classes in the front-end
+router.get("/get-all-names", async (ctx) => {
+  ctx.body = await getAllClasses();
 });
 
 // aggiunge una nuova classe ---> funziona!!
@@ -50,11 +51,7 @@ router.delete("/:id", isAdminOrTeacherMiddleware(), async (ctx) =>{
   ctx.body = await deleteClass(ctx.params.id);
 });
 
-
-
-
-
-//get all classes / if teacher get your classes
+//get all classes if admin / if teacher get your classes
 router.get("/", async (ctx) => {
   const currentUser = ctx.session.user;
 
