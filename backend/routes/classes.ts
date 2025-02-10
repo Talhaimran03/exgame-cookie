@@ -46,9 +46,10 @@ router.delete("/:id", isAdminOrTeacherMiddleware(), async (ctx) =>{
   ctx.body = await deleteClass(ctx.params.id);
 });
 
-
-
-
+//get all classes with id and name of the class
+router.get("/get-all", async (ctx) => {
+  ctx.body = await getAllClasses();
+});
 
 //get all classes / if teacher get your classes
 router.get("/", async (ctx) => {
@@ -94,6 +95,8 @@ router.get("/:id", async (ctx) => {
       break;
   }
 });
+
+
 
 //TODO: api per aggiungere classe a Teacher (PUT)
 

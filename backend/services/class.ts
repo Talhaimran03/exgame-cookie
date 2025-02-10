@@ -6,8 +6,7 @@ import DB from "./db";
 const classSchema = new DB.Schema<Class>({
         // _id: String,
         name: String,
-    }
-);
+});
 
 export const ClassModel = DB.model("class", classSchema);
 
