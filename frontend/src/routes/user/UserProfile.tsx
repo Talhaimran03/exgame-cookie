@@ -51,7 +51,7 @@ export const UserProfile: React.FC = () => {
               currentUser?.teacher_classes &&
               currentUser?.teacher_classes?.length > 0 && (
               <Typography component="h5" style={{ marginBottom: "1rem" }}>
-                Classi: {currentUser?.teacher_classes}
+                Classi: {currentUser?.teacher_classes.join(", ")}
               </Typography>
             )}
             {currentUser?.role === "teacher" &&
