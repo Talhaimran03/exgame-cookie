@@ -96,8 +96,4 @@ router.get("/:id", async (ctx) => {
   }
 });
 
-
-
-//TODO: api per aggiungere classe a Teacher (PUT)
-
 export default router;

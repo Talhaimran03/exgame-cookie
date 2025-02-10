@@ -60,19 +60,3 @@ export const deleteClass = async (id: String) => {
         };
     }
 };
-
-//TODO FIX THE SUCCESIVE FUNCTIONS ⇂
-// export const getStudentsOfClass = async (studentClass: string) => {
-//   return await UserModel.find(
-//     { role: "student", student_class: studentClass },
-//     { first_name: 1, last_name: 1, _id: 1 },
-//   );
-// };
-
-// export const getUsersWithoutClass = async () => {
-//   return UserModel.find({ role: "student", student_class: null });
-// };
-
-// export const getMyStudents = async (teacher_classes: string[]) => {
-//   return UserModel.find({ student_class: { $in: teacher_classes } });
-// };
