@@ -96,6 +96,7 @@ router.put("/:id", async (ctx) => {
     case "admin":
       console.log('admin')
       response = await edit(ctx.params.id, ctx.request.body as User);
+      ctx.session.user = response;
       break;
     case "student":
     case "teacher":
